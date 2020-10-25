@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider_with_post_json_api/Model/postModel.dart';
+import 'package:provider_with_post_json_api/screen/productdetails.dart';
 import 'package:provider_with_post_json_api/util/post_service.dart';
 
 class AlbumList extends StatefulWidget {
@@ -29,11 +30,29 @@ class _AlbumListState extends State<AlbumList> {
               return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                        leading: Text(snapshot.data[index].id.toString()),
-                        title: Text(snapshot.data[index].title));
+                    return Card(
+                      elevation: 10,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: GridTile(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProductDetailScreen()),
+                              );
+                            },
+                            child: Hero(
+                              child: Text(snapshot.data[index].body),
+                              tag: snapshot.data[index].id,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
                   });
-              // return Text(snapshot.data.body);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
